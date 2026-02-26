@@ -82,8 +82,8 @@ def main():
     }
     .premium-subtitle { text-align: center; color: #718096; margin-bottom: 2rem; font-size: 1.1rem; }
     
-    /* Card container styling - specifically for the main question and chat boxes */
-    [data-testid="stVerticalBlock"]:has(h3) > [data-testid="stVerticalBlockBorderWrapper"] {
+    /* More reliable card container styling */
+    [data-testid="stVerticalBlockBorderWrapper"] {
         background-color: #ffffff !important;
         border-radius: 20px !important;
         border: 1px solid rgba(0, 0, 0, 0.05) !important;
@@ -91,23 +91,24 @@ def main():
         padding: 1.5rem !important;
     }
     
-    /* Force transparency on all layout elements including the audiorecorder wrapper */
-    [data-testid="stHorizontalBlock"] [data-testid="stVerticalBlockBorderWrapper"],
-    div.element-container:has(iframe) {
+    /* Force transparency on the recording component container specifically */
+    div.element-container:has(iframe[title="streamlit_audiorecorder.audiorecorder"]) {
         background-color: transparent !important;
         background: transparent !important;
         border: none !important;
-        box-shadow: none !important;
         padding: 0 !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        justify-content: center !important;
     }
 
-    /* Target the audiorecorder iframe specifically - force transparency */
+    /* Target the audiorecorder iframe - ensure no background or border */
     iframe[title="streamlit_audiorecorder.audiorecorder"] {
         background: transparent !important;
         background-color: transparent !important;
         border: none !important;
-        display: block !important;
         margin: 0 auto !important;
+        display: block !important;
     }
     
     /* Polished styling for the recording and primary buttons */
