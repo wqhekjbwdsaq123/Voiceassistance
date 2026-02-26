@@ -82,31 +82,27 @@ def main():
     }
     .premium-subtitle { text-align: center; color: #718096; margin-bottom: 2rem; font-size: 1.1rem; }
     
-    /* More reliable card container styling */
-    [data-testid="stVerticalBlockBorderWrapper"] {
+    /* UNIFIED FIX: Force pure white cards on all environments */
+    [data-testid="stVerticalBlockBorderWrapper"], 
+    [data-testid="stVerticalBlockBorderWrapper"] > div {
         background-color: #ffffff !important;
+        background: #ffffff !important;
         border-radius: 20px !important;
-        border: 1px solid rgba(0, 0, 0, 0.05) !important;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1) !important;
-        padding: 1.5rem !important;
     }
     
-    /* Force transparency on the recording component container specifically */
-    div.element-container:has(iframe[title="streamlit_audiorecorder.audiorecorder"]) {
+    /* TARGETED FIX: Force transparency on the recording component to kill the white glitch */
+    div.stCustomComponentV1, 
+    div.element-container:has(iframe[title*="audiorecorder"]),
+    iframe[title*="audiorecorder"] {
         background-color: transparent !important;
         background: transparent !important;
         border: none !important;
+        box-shadow: none !important;
         padding: 0 !important;
-        margin: 0 auto !important;
-        display: flex !important;
-        justify-content: center !important;
     }
 
-    /* Target the audiorecorder iframe - ensure no background or border */
-    iframe[title="streamlit_audiorecorder.audiorecorder"] {
-        background: transparent !important;
-        background-color: transparent !important;
-        border: none !important;
+    /* Polish for the audiorecorder iframe specifically */
+    iframe[title*="audiorecorder"] {
         margin: 0 auto !important;
         display: block !important;
     }
