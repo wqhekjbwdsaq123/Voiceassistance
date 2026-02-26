@@ -1,0 +1,6 @@
+streamlit
+streamlit-audiorecorder
+openai
+gTTS
+pydub
+audioop-lts
