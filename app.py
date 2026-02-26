@@ -164,13 +164,23 @@ def main():
     
     with col_left:
         st.markdown('<h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; margin-top: 0;">🎤 질문하기</h3>', unsafe_allow_html=True)
-        with st.container(height=500, border=True):
+        with st.container(border=True):
             st.markdown('<p style="color: #4a5568; margin-top: 1rem; margin-bottom: 2.5rem; font-weight: 600; font-size: 1.1rem; text-align: center;">여기를 눌러 녹음을 시작하세요👇</p>', unsafe_allow_html=True)
             
             # Center the audiorecorder button using safe nested columns
             c1, c2, c3 = st.columns([1, 1.5, 1])
             with c2:
-                audio = audiorecorder("🎙️ 녹음하기", "🛑 녹음 중지")
+                btn_style = {
+                    "background": "#3b5998", # Darker blue
+                    "color": "white", 
+                    "border": "none", 
+                    "borderRadius": "40px", 
+                    "padding": "12px 30px", 
+                    "fontWeight": "600",
+                    "width": "100%",
+                    "cursor": "pointer"
+                }
+                audio = audiorecorder("🎙️ 녹음하기", "🛑 녹음 중지", start_style=btn_style, stop_style=btn_style)
             
             # Update session state if new audio is recorded
             if len(audio) > 0 and not st.session_state["reset_pending"]:
