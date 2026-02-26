@@ -49,7 +49,7 @@ def main():
     <style>
     * { font-family: 'Outfit', sans-serif; }
     .stApp { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
-    .main .block-container { padding-top: 2rem; max-width: 1400px; }
+    .main .block-container { padding-top: 2rem; max-width: 1200px; }
     
     /* Prevent sidebar buttons from wrapping */
     [data-testid="stSidebar"] button {
@@ -84,9 +84,7 @@ def main():
     
     /* Native container styling for both left and right cards */
     [data-testid="stVerticalBlockBorderWrapper"] {
-        background: rgba(255, 255, 255, 0.7) !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
+        background: #ffffff !important;
         border-radius: 20px !important;
         border: 1px solid rgba(255, 255, 255, 0.18) !important;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1) !important;
@@ -94,6 +92,8 @@ def main():
     }
 
 
+    /* Removed hacky iframe centering CSS */
+    
     /* Styling for the audiorecorder button */
     .stButton button, .audiorecorder button, button[kind="secondary"] {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
@@ -150,7 +150,7 @@ def main():
         selected_model = st.selectbox("Intelligence Level", options=["gpt-4o", "gpt-4-turbo", "gpt-3.5-turbo"], index=0)
         
         st.divider()
-        if st.button("🗑️ Clear Conversation", use_container_width=True):
+        if st.button("🗑️ 대화 내용 초기화", use_container_width=True):
             st.session_state["chat_history"] = []
             st.session_state["messages"] = [{"role": "system", "content": "You are a friendly AI assistant. Please respond concisely in Korean."}]
             st.session_state["latest_user_audio"] = None
@@ -163,14 +163,13 @@ def main():
     col_left, col_right = st.columns([1, 1], gap="large")
     
     with col_left:
-        st.markdown("### 🎤 질문하기")
+        st.markdown('<h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; margin-top: 0;">🎤 질문하기</h3>', unsafe_allow_html=True)
         with st.container(height=500, border=True):
             st.markdown('<p style="color: #4a5568; margin-top: 1rem; margin-bottom: 2.5rem; font-weight: 600; font-size: 1.1rem; text-align: center;">여기를 눌러 녹음을 시작하세요👇</p>', unsafe_allow_html=True)
             
-            # Center the audiorecorder button using nested columns
-            c1, c2, c3 = st.columns([1, 2, 1])
+            # Center the audiorecorder button using safe nested columns
+            c1, c2, c3 = st.columns([1, 1.5, 1])
             with c2:
-                # The audiorecorder button
                 audio = audiorecorder("🎙️ 녹음하기", "🛑 녹음 중지")
             
             # Update session state if new audio is recorded
@@ -185,7 +184,7 @@ def main():
                 st.markdown('</div>', unsafe_allow_html=True)
 
     with col_right:
-        st.markdown("### 💬 대화 내용")
+        st.markdown('<h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; margin-top: 0;">💬 대화 내용</h3>', unsafe_allow_html=True)
         with st.container(height=500, border=True):
             if not st.session_state["chat_history"]:
                 st.markdown('<p style="text-align: center; color: #a0aec0; padding-top: 10rem;">대화 내용이 여기에 표시됩니다.<br>왼쪽에서 첫 질문을 시작해 보세요.</p>', unsafe_allow_html=True)
