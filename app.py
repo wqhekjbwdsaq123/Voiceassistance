@@ -82,33 +82,49 @@ def main():
     }
     .premium-subtitle { text-align: center; color: #718096; margin-bottom: 2rem; font-size: 1.1rem; }
     
-    /* Native container styling for both left and right cards */
-    [data-testid="stVerticalBlockBorderWrapper"] {
-        background: #ffffff !important;
+    /* Card container styling - specifically for the main question and chat boxes */
+    [data-testid="stVerticalBlock"]:has(h3) > [data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #ffffff !important;
         border-radius: 20px !important;
-        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1) !important;
-        padding: 1rem !important;
+        padding: 1.5rem !important;
+    }
+    
+    /* Force transparency on all layout elements including the audiorecorder wrapper */
+    [data-testid="stHorizontalBlock"] [data-testid="stVerticalBlockBorderWrapper"],
+    div.element-container:has(iframe) {
+        background-color: transparent !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
     }
 
-
-    /* Removed hacky iframe centering CSS */
+    /* Target the audiorecorder iframe specifically - force transparency */
+    iframe[title="streamlit_audiorecorder.audiorecorder"] {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        display: block !important;
+        margin: 0 auto !important;
+    }
     
-    /* Styling for the audiorecorder button */
+    /* Polished styling for the recording and primary buttons */
     .stButton button, .audiorecorder button, button[kind="secondary"] {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background: linear-gradient(135deg, #3b5998 0%, #2a3f6a 100%) !important;
         color: white !important;
         border: none !important;
-        border-radius: 40px !important;
-        padding: 15px 45px !important;
+        border-radius: 50px !important;
+        padding: 12px 35px !important;
         font-weight: 600 !important;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-        width: 280px !important;
-        max-width: 90% !important;
-        text-transform: uppercase !important;
-        letter-spacing: 1px !important;
+        box-shadow: 0 4px 15px rgba(59, 89, 152, 0.3) !important;
+        transition: all 0.3s ease !important;
+        width: auto !important;
+        min-width: 180px !important;
+        max-width: 100% !important;
     }
+
     .stButton button:hover, .audiorecorder button:hover, button[kind="secondary"]:hover {
         transform: scale(1.05) !important;
         box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5) !important;
@@ -168,15 +184,14 @@ def main():
             st.markdown('<p style="color: #4a5568; margin-top: 1rem; margin-bottom: 2.5rem; font-weight: 600; font-size: 1.1rem; text-align: center;">여기를 눌러 녹음을 시작하세요👇</p>', unsafe_allow_html=True)
             
             # Center the audiorecorder button using safe nested columns
-            c1, c2, c3 = st.columns([1, 1.5, 1])
+            c1, c2, c3 = st.columns([0.5, 2, 0.5])
             with c2:
                 btn_style = {
-                    "background": "#3b5998", # Darker blue
-                    "color": "white", 
-                    "border": "none", 
-                    "borderRadius": "40px", 
-                    "padding": "12px 30px", 
-                    "fontWeight": "600",
+                    "background": "linear-gradient(135deg, #3b5998 0%, #2a3f6a 100%)",
+                    "color": "white",
+                    "borderRadius": "50px",
+                    "border": "none",
+                    "padding": "12px 30px",
                     "width": "100%",
                     "cursor": "pointer"
                 }
