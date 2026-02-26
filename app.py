@@ -48,7 +48,7 @@ def main():
     css = """
     <style>
     * { font-family: 'Outfit', sans-serif; }
-    .stApp { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+    .stApp { background: #ffffff; }
     .main .block-container { padding-top: 2rem; max-width: 1200px; }
     
     /* Prevent sidebar buttons from wrapping */
