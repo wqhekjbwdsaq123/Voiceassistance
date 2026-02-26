@@ -51,15 +51,9 @@ def main():
     .stApp { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
     .main .block-container { padding-top: 2rem; max-width: 1400px; }
     
-    .glass-card {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        padding: 2rem;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-        margin-bottom: 2rem;
+    /* Prevent sidebar buttons from wrapping */
+    [data-testid="stSidebar"] button {
+        white-space: nowrap !important;
     }
     
     .chat-bubble {
@@ -88,7 +82,7 @@ def main():
     }
     .premium-subtitle { text-align: center; color: #718096; margin-bottom: 2rem; font-size: 1.1rem; }
     
-    /* Native container styling for left side card */
+    /* Native container styling for both left and right cards */
     [data-testid="stVerticalBlockBorderWrapper"] {
         background: rgba(255, 255, 255, 0.7) !important;
         backdrop-filter: blur(10px) !important;
@@ -96,22 +90,9 @@ def main():
         border-radius: 20px !important;
         border: 1px solid rgba(255, 255, 255, 0.18) !important;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1) !important;
-        padding: 1.5rem !important;
-        margin-top: 0.5rem !important;
+        padding: 1rem !important;
     }
-    
-    /* Chat container scrolling */
-    .chat-container {
-        height: 500px;
-        overflow-y: auto;
-        padding-right: 15px;
-        margin-bottom: 0 !important;
-    }
-    
-    /* Custom scrollbar */
-    .chat-container::-webkit-scrollbar { width: 6px; }
-    .chat-container::-webkit-scrollbar-thumb { background-color: rgba(160, 174, 192, 0.5); border-radius: 10px; }
-    .chat-container::-webkit-scrollbar-track { background: transparent; }
+
 
     /* Styling for the audiorecorder button */
     .stButton button, .audiorecorder button, button[kind="secondary"] {
@@ -183,11 +164,14 @@ def main():
     
     with col_left:
         st.markdown("### 🎤 질문하기")
-        with st.container(border=True):
-            st.markdown('<p style="color: #4a5568; margin-bottom: 1.5rem; font-weight: 600; font-size: 1.1rem; text-align: center;">여기를 눌러 녹음을 시작하세요👇</p>', unsafe_allow_html=True)
+        with st.container(height=500, border=True):
+            st.markdown('<p style="color: #4a5568; margin-top: 1rem; margin-bottom: 2.5rem; font-weight: 600; font-size: 1.1rem; text-align: center;">여기를 눌러 녹음을 시작하세요👇</p>', unsafe_allow_html=True)
             
-            # The audiorecorder button
-            audio = audiorecorder("🎙️ 녹음하기", "🛑 녹음 중지")
+            # Center the audiorecorder button using nested columns
+            c1, c2, c3 = st.columns([1, 2, 1])
+            with c2:
+                # The audiorecorder button
+                audio = audiorecorder("🎙️ 녹음하기", "🛑 녹음 중지")
             
             # Update session state if new audio is recorded
             if len(audio) > 0 and not st.session_state["reset_pending"]:
@@ -195,32 +179,32 @@ def main():
             
             # Playback if audio exists in session state
             if st.session_state["latest_user_audio"] is not None:
-                st.markdown('<p style="color: #4a5568; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem;">🔊 제일 최근에 녹음한 질문:</p>', unsafe_allow_html=True)
+                st.markdown('<div style="margin-top: 4rem; text-align: center;">', unsafe_allow_html=True)
+                st.markdown('<p style="color: #4a5568; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem;">🔊 제일 최근에 녹음한 질문:</p>', unsafe_allow_html=True)
                 st.audio(st.session_state["latest_user_audio"], format="audio/wav")
+                st.markdown('</div>', unsafe_allow_html=True)
 
     with col_right:
         st.markdown("### 💬 대화 내용")
-        # Scrollable Chat Container
-        st.markdown('<div class="glass-card chat-container">', unsafe_allow_html=True)
-        if not st.session_state["chat_history"]:
-            st.markdown('<p style="text-align: center; color: #a0aec0; padding: 5rem 0;">대화 내용이 여기에 표시됩니다.<br>왼쪽에서 첫 질문을 시작해 보세요.</p>', unsafe_allow_html=True)
-        else:
-            for role, time, text in st.session_state["chat_history"]:
-                if role == "user":
-                    st.markdown(f'''
-                        <div style="display: flex; flex-direction: column; align-items: flex-end;">
-                            <div class="chat-bubble user-bubble">{text}</div>
-                            <div class="time-label user-time">{time}</div>
-                        </div>
-                    ''', unsafe_allow_html=True)
-                else:
-                    st.markdown(f'''
-                        <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                            <div class="chat-bubble bot-bubble">{text}</div>
-                            <div class="time-label bot-time">{time}</div>
-                        </div>
-                    ''', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        with st.container(height=500, border=True):
+            if not st.session_state["chat_history"]:
+                st.markdown('<p style="text-align: center; color: #a0aec0; padding-top: 10rem;">대화 내용이 여기에 표시됩니다.<br>왼쪽에서 첫 질문을 시작해 보세요.</p>', unsafe_allow_html=True)
+            else:
+                for role, time, text in st.session_state["chat_history"]:
+                    if role == "user":
+                        st.markdown(f'''
+                            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                                <div class="chat-bubble user-bubble">{text}</div>
+                                <div class="time-label user-time">{time}</div>
+                            </div>
+                        ''', unsafe_allow_html=True)
+                    else:
+                        st.markdown(f'''
+                            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <div class="chat-bubble bot-bubble">{text}</div>
+                                <div class="time-label bot-time">{time}</div>
+                            </div>
+                        ''', unsafe_allow_html=True)
 
     if len(audio) > 0 and not st.session_state["reset_pending"]:
         if not user_api_key:
