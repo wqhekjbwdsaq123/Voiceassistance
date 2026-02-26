@@ -1,5 +1,7 @@
 # 🎙️ 인공지능 음성 비서 (AI Voice Assistant)
 
+> 🔗 **서비스 링크:** [https://voiceassistance-qzsmmkjsdfazd3scxgkiqq.streamlit.app/](https://voiceassistance-qzsmmkjsdfazd3scxgkiqq.streamlit.app/)
+
 음성으로 질문하고 답변을 들을 수 있는 웹 기반의 인공지능 비서 애플리케이션입니다. 
 Streamlit을 활용해 만들어졌으며, 사용하기 쉽고 깔끔한 인터페이스를 자랑합니다.
 
